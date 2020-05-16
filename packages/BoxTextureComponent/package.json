@@ -1,0 +1,18 @@
+{
+  "name": "@MyPersonalComponentLibrary/kittybox",
+  "version": "0.1.0",
+  "main": "src/index.js",
+  "license": "MIT",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "precommit": "lint-staged",
+    "clean": "../../scripts/task clean",
+    "docs": "../../scripts/task docs",
+    "lint": "../../scripts/task lint"
+  },
+  "dependencies": {
+    "wpe-lightning-sdk": "WebPlatformForEmbedded/Lightning-SDK"
+  }
+}

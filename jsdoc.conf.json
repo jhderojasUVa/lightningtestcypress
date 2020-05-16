@@ -1,0 +1,50 @@
+{
+  "tags": {
+    "allowUnknownTags": false
+  },
+  "source": {
+    "include": [
+      ""
+    ],
+    "excludePattern": "(node_modules|lib|dist|test)"
+  },
+  "plugins": [
+    "plugins/markdown",
+    "@pixi/jsdoc-template/plugins/es6-fix"
+  ],
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false,
+    "default": {
+      "includeDate": false,
+      "outputSourceFiles": true
+    },
+    "applicationName": "My component Library",
+    "footer": "Testing",
+    "copyright": "Tomorrow is monday",
+    "disqus": "",
+    "openGraph": {
+      "title": "",
+      "type": "website",
+      "image": "",
+      "site_name": "",
+      "url": ""
+    },
+    "meta": {
+      "title": "@odin docs",
+      "description": "Documentation for the a component library",
+      "keyword": "docs, documentation, component, lightning, javascript, jsdoc, test"
+    },
+    "linenums": true
+  },
+  "markdown": {
+    "parser": "gfm",
+    "hardwrap": false
+  },
+  "opts": {
+    "encoding": "utf8",
+    "recurse": true,
+    "destination": "./docs",
+    "template": "../../node_modules/@pixi/jsdoc-template"
+  }
+}

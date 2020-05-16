@@ -1,0 +1,60 @@
+{
+  "name": "MyPersonalComponentLibrary",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "postinstall": "yarn bootstrap",
+    "commit": "git-cz",
+    "docs": "rimraf docs && jsdoc -c jsdoc.conf.json -R README.md",
+    "lint": "eslint --ext .js cypress/integration packages",
+    "lintfix": "yarn lint --fix",
+    "cypress:run": "cypress run",
+    "cypress:debug": "cypress open",
+    "test": "start-server-and-test serve http://localhost:80 cypress:run",
+    "test:debug": "start-server-and-test serve http://localhost:80 cypress:debug",
+    "update-version": "lerna version",
+    "check-packages": "yarn clean && yarn build && yarn test && yarn lint",
+    "publish-packages": "lerna publish",
+    "serve": "webpack-dev-server --host 0.0.0.0 --port 80"
+  },
+  "devDependencies": {
+    "@cypress/webpack-preprocessor": "^5.1.2",
+    "@pixi/jsdoc-template": "^2.6.0",
+    "commitizen": "^4.0.4",
+    "copy-webpack-plugin": "^5.1.1",
+    "cypress": "^4.5.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-chai-friendly": "^0.6.0",
+    "eslint-plugin-cypress": "^2.10.3",
+    "eslint-plugin-prettier": "^3.1.3",
+    "glob": "^7.1.6",
+    "husky": "^4.2.5",
+    "jsdoc": "^3.6.4",
+    "lerna": "^3.20.2",
+    "lerna-changelog": "^1.0.1",
+    "lint-staged": "^10.1.7",
+    "prettier": "^2.0.5",
+    "rimraf": "^3.0.2",
+    "start-server-and-test": "^1.11.0",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lerna run --concurrency 1 --stream precommit --since HEAD",
+      "pre-push": "yarn test"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "dependencies": {}
+}

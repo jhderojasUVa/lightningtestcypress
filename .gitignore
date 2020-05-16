@@ -1,0 +1,19 @@
+# NPM
+node_modules
+
+# Cypress
+cypress/videos
+cypress/screenshots
+
+# Files not needed
+**/.DS_Store
+**/Thumbs.db
+
+# VS Code
+.vscode
+
+# WebStorm
+.idea
+
+# Documentation
+docs
