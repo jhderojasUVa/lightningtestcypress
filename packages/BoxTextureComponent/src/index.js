@@ -9,25 +9,14 @@ const GLINT_WITH = 120;
 
 const ALPHA_BACKGROUND = 0.8;
 
-
 export class BoxTextureComponent extends Lightning.Component {
 
-  /**
-   * Setter isSelected
-   * @param {boolean} value - if it's selected or not
-   */
   set isSelected(value) {
     // Is selected or not
     this.selected = !!value;
     this._isSelected();
   }
 
-  /**
-   * Setter setBackgroundAlpha
-   * @param {number} value - value of alpha for the background
-   *
-   * If value is set to 0 the background will not be visible
-   */
   set setBackgroundAlpha(value) {
     // Set the alpha of the background
     this.backgroundAlpha = typeof value === 'number' ? value : ALPHA_BACKGROUND;
@@ -37,12 +26,6 @@ export class BoxTextureComponent extends Lightning.Component {
     this.tag('Interior').visible = this.backgroundAlpha == 0 ? false : true;
   }
 
-  /**
-   * Setter backgroundPadding
-   * @param {number} value - padding in pixels of the background
-   *
-   * Separation of the background to the borders
-   */
   set backgroundPadding(value) {
     // Set the padding of the background (distance to the border)
 
@@ -57,14 +40,6 @@ export class BoxTextureComponent extends Lightning.Component {
     }
   }
 
-  /**
-   * _states (static method)
-   *
-   * States of the component
-   * Responsibles to change the behaviour of the component
-   * when has focus (or not) or if you change the property
-   * of selection
-   */
   static _states() {
     return [
       class toYesSelected extends this {
@@ -84,26 +59,14 @@ export class BoxTextureComponent extends Lightning.Component {
     ];
   }
 
-  /**
-   * _build (Lightning behaviour)
-   * Responsible of setting some private methods at build time
-   */
   _build() {
     // Addiding this to the build part so it's available from the beginning
-    // Lazy me
     this._interior = this.tag('Interior');
     this._borders = this.tag('Borders');
     this._corners = this.tag('Corners');
     this._glint = this.tag('Glint');
   }
 
-  /**
-   * _init (Lightning behaviour)
-   * Responsible of preparing the component at initialization time
-   * - Changes the URL of the images (on test mode)
-   * - Populate corners and borders
-   * - Show/Hide certain borders
-   */
   _init() {
     console.log('GlassGlintComponent initialized!');
 
@@ -127,18 +90,8 @@ export class BoxTextureComponent extends Lightning.Component {
     this._showBorders();
   }
 
-  /**
-   * _imagePrepareForTest (Private method)
-   * @param {sting} element - name of the element
-   *
-   * If you are in test mode (cypress) the source of the image will have
-   * undefined because Utils is not properly initialiced.
-   * This will change to the webpack directory where all your images
-   * are copied.
-   */
   _imagePrepareForTest(element) {
     // This will change the images from develop to test
-    // TODO: Binary tree follow paths!
     this.tag(element).childList.forEach((item) => {
       if (item.texture.src.includes('undefined')) {
         const splitPath = item.texture.src.split('/');
@@ -152,14 +105,6 @@ export class BoxTextureComponent extends Lightning.Component {
     });
   }
 
-  /**
-   * _populateCorners (Private method)
-   * @param {number} w - width
-   * @param {number} h - height
-   *
-   * Clip the texture of the corners to the correct size.
-   * By default is 50px.
-   */
   _populateCorners(w = 50, h = 50) {
     // Image Clip for the corners
     // w, h clip size
@@ -170,12 +115,6 @@ export class BoxTextureComponent extends Lightning.Component {
     this.tag('CornerBottomLeft').texture.enableClipping(0, 50 + (50 - h), w, h);
   }
 
-  /**
-   * _populateBorders (Private method)
-   *
-   * Clip the texture of the borders.
-   * By default it uses the constant.
-   */
   _populateBorders() {
     // Image Clip for the borders
     this.tag('BorderUp').texture.enableClipping(50, 0, BORDER_WIDTH, BORDER_WIDTH);
@@ -184,19 +123,12 @@ export class BoxTextureComponent extends Lightning.Component {
     this.tag('BorderRight').texture.enableClipping(90, 50, BORDER_WIDTH, BORDER_WIDTH);
   }
 
-  /**
-   * _showBorders (Private method)
-   *
-   * Show or hide certain borders if the element is so small that the corners
-   * can overlap and will appear some nasty effects
-   */
   _showBorders() {
     // This method will hide left and right borders and change the clip of the corners
     let w = 50,
       h = 50;
 
     // Remove left/right border because height it's to small and we use the part of
-    // the clipped image as border
     if (this.h < 2 * BORDER_SIZE) {
       this.tag('BorderLeft').visible = false;
       this.tag('BorderRight').visible = false;
@@ -206,7 +138,6 @@ export class BoxTextureComponent extends Lightning.Component {
     }
 
     // Remove up/down border because width it's to small and we use the part of
-    // the clipped image as border
     if (this.w < 2 * BORDER_SIZE) {
       this.tag('BorderUp').visible = false;
       this.tag('BorderBottom').visible = false;
@@ -214,17 +145,8 @@ export class BoxTextureComponent extends Lightning.Component {
       // Clipping change if needed on the future
       w = this.w / 2;
     }
-
-    // Border clipping change (not needed now)
-    // this._populateCorners(w, h);
   }
 
-  /**
-   * _isSelected (Private method)
-   *
-   * Responsible to change the state to selected or not if
-   * you change the property of the element.
-   */
   _isSelected() {
     // This method will change the state of the component
     // depending if isSelected property is true or false
@@ -238,12 +160,6 @@ export class BoxTextureComponent extends Lightning.Component {
     }
   }
 
-  /**
-   * _animateSelection (Private method)
-   * @param {boolean} isOnOff
-   *
-   * Responsible of showing the animation when selected or not selected
-   */
   _animateSelection(isOnOff) {
     // Method that creates the animation
     // isOnOff: true | false (boolean)
@@ -275,40 +191,18 @@ export class BoxTextureComponent extends Lightning.Component {
     ];
 
     let actionToDo = !!isOnOff ? action_on : action_off;
-
-    this.tag('Glint')
-      .animation({
-        duration: 1.5,
-        repeat: 0,
-        actions: actionToDo,
-      })
-      .play();
   }
 
-  /**
-   * _focus (Lightning behaviour)
-   *
-   * Responsible when the component has focus
-   */
   _focus() {
     // If the component get focus
     this._setState('toYesSelected');
   }
 
-  /**
-   * _unfocus (Lightning behaviour)
-   *
-   * Responsible when the component loose focus
-   */
   _unfocus() {
     // If the component loose focus
     this._setState('toNoSelected');
   }
 
-  /**
-   * _template (static method)
-   * Template of the element
-   */
   static _template() {
     return {
       Box: {
@@ -337,7 +231,7 @@ export class BoxTextureComponent extends Lightning.Component {
             y: 0,
             texture: {
               type: Lightning.textures.ImageTexture,
-              src: Utils.asset('glint/300.jpg'),
+              src: Utils.asset('kitty/300.jpg'),
             },
           },
           CornerUpLeft: {
@@ -345,7 +239,7 @@ export class BoxTextureComponent extends Lightning.Component {
             y: 0,
             texture: {
               type: Lightning.textures.ImageTexture,
-              src: Utils.asset('glint/300.jpg'),
+              src: Utils.asset('kitty/300.jpg'),
             },
           },
           CornerBottomRight: {
@@ -353,7 +247,7 @@ export class BoxTextureComponent extends Lightning.Component {
             y: (h) => h,
             texture: {
               type: Lightning.textures.ImageTexture,
-              src: Utils.asset('glint/300.jpg'),
+              src: Utils.asset('kitty/300.jpg'),
             },
           },
           CornerBottomLeft: {
@@ -361,7 +255,7 @@ export class BoxTextureComponent extends Lightning.Component {
             y: (h) => h,
             texture: {
               type: Lightning.textures.ImageTexture,
-              src: Utils.asset('glint/300.jpg'),
+              src: Utils.asset('kitty/300.jpg'),
             },
           },
         },
@@ -377,7 +271,7 @@ export class BoxTextureComponent extends Lightning.Component {
             h: BORDER_WIDTH,
             texture: {
               type: Lightning.textures.ImageTexture,
-              src: Utils.asset('glint/300.jpg'),
+              src: Utils.asset('kitty/300.jpg'),
             },
           },
           BorderBottom: {
@@ -387,7 +281,7 @@ export class BoxTextureComponent extends Lightning.Component {
             h: BORDER_WIDTH,
             texture: {
               type: Lightning.textures.ImageTexture,
-              src: Utils.asset('glint/300.jpg'),
+              src: Utils.asset('kitty/300.jpg'),
             },
           },
           BorderLeft: {
@@ -397,7 +291,7 @@ export class BoxTextureComponent extends Lightning.Component {
             h: (h) => h - BORDER_SIZE,
             texture: {
               type: Lightning.textures.ImageTexture,
-              src: Utils.asset('glint/300.jpg'),
+              src: Utils.asset('kitty/300.jpg'),
             },
           },
           BorderRight: {
@@ -407,7 +301,7 @@ export class BoxTextureComponent extends Lightning.Component {
             h: (h) => h - BORDER_SIZE,
             texture: {
               type: Lightning.textures.ImageTexture,
-              src: Utils.asset('glint/300.jpg'),
+              src: Utils.asset('kitty/300.jpg'),
             },
           },
         },
@@ -419,18 +313,18 @@ export class BoxTextureComponent extends Lightning.Component {
           visible: false,
           TopGlint: {
             x: (w) => w / 2 - GLINT_WITH,
-            y: 0 - 25, // Glint is not on the center of the img
+            y: 0 - 25, // kitty is not on the center of the img
             texture: {
               type: Lightning.textures.ImageTexture,
-              src: Utils.asset('glint/400.jpg'),
+              src: Utils.asset('kitty/400.jpg'),
             },
           },
           BottomGlint: {
             x: (w) => w / 2 - GLINT_WITH,
-            y: (h) => h + 20, // Glint is not on the center of the img
+            y: (h) => h + 20, // kitty is not on the center of the img
             texture: {
               type: Lightning.textures.ImageTexture,
-              src: Utils.asset('glint/400.jpg'),
+              src: Utils.asset('kitty/400.jpg'),
             },
           },
         },
