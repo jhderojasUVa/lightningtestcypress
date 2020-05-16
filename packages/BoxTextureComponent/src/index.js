@@ -1,7 +1,5 @@
 import { Lightning, Utils } from 'wpe-lightning-sdk';
 
-/** constants for general use */
-// This constants depends on the image file used!
 const BORDER_WIDTH = 10; // Respect the image file
 const BORDER_SIZE = 50; // Respect the image file
 
@@ -11,55 +9,8 @@ const GLINT_WITH = 120;
 
 const ALPHA_BACKGROUND = 0.8;
 
-// Can I use something to load the size automaticaly?
-// Remember glass-frame.png 100x100px
-
-// How to use this component
-// Create a component like
-/*
-    BoxElement: {
-        x: 300, // X POS
-        y: 250, // Y POS
-        w: 550, // Width
-        h: 250, // Height
-        type: GlassGlintComponent // Type of the component
-    }
-*/
-
-// You can trigger the glint in two various ways
-// BoxElement.isSelected = true | false
-// or
-// setting the focus on the element
 
 export class BoxTextureComponent extends Lightning.Component {
-  /**
-   * OdinGlint will show box with a glint (if you need it)
-   * 
-   * It works by taking an image several times (don't worry it only read it once
-   * and the cache do the rest) and slicing in 9 parts. Depending on the size it can
-   * not show the borders in order for not to show show nasty effects on it
-   * 
-   * @class OdinClock
-   * @example
-   * import { OdinGlint } from from '@odin/glint'
-
-      class App extends Lightning.Application {
-        static _template() {
-          return {
-            BoxGlintElement: {
-                x: 0, // X position
-                y: 0, // Y position
-                w: 550, // Width
-                h: 450, // Height,
-                isSelected: true, // Element is selected,
-                setBackgroundAlpha: 0.2,
-                backgroundPadding: 20,
-                type: OdinGlint
-            }
-          }
-        }
-      }
-   */
 
   /**
    * Setter isSelected
